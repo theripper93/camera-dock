@@ -18,7 +18,7 @@ Hooks.once("ready", () => {
     rtcSett.dockPosition = "bottom";
 
     for(let [k,v] of Object.entries(rtcSett.users)){
-        v.popout = true;
+        v.popout = false;
         rtcSett.users[k] = v;
     }
 
