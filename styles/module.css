@@ -1,0 +1,63 @@
+:root{
+    --camera-size: 100px;
+}
+
+#camera-views{
+    width: 100% !important;
+    min-width: 100% !important;
+    height: auto !important;
+    background: none !important;
+    position: unset !important;
+    padding-bottom: 6px !important;
+}
+
+.camera-view.camera-box-dock{
+    width: var(--camera-size) !important;
+}
+
+.camera-grid{
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: flex-start !important;
+    gap: 10px;
+    height: 100%;
+}
+
+.camera-container{
+    justify-content: flex-start;
+    display: flex !important;
+
+}
+
+#user-controls{
+    order: -100;
+}
+
+.user-controls{
+    order: -100;
+    background: url(/ui/denim075.png) repeat !important;
+    border-top-left-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
+    width: 8px !important;
+    padding: 4px !important;
+    pointer-events: all;
+    transition: all 0.2s ease-in-out;
+    font-size: clamp(5px, calc(var(--camera-size) / 10), 16px) !important;
+}
+
+.user-controls:hover{
+    width: clamp(5px, calc(var(--camera-size) / 4), 30px) !important;
+}
+
+.user-controls:hover nav{
+    opacity: 1;
+}
+
+.user-controls nav{
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+}
+
+.av-control[data-action="toggle-dock"]{
+    display: none !important;
+}

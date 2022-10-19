@@ -1,7 +1,7 @@
 {
-    "title": "name",
-    "description": "desc",
-    "id": "modid",
+    "title": "Camera Dock",
+    "description": "Restore V9 Camera Docking",
+    "id": "camera-dock",
     "version": "1.0",
     "authors": [
       {
@@ -34,11 +34,6 @@
     "download": "https://github.com/theripper93/Levels/releases/download/0.9.7.3/module.zip",
     "relationships": {
       "requires": [
-        {
-          "id": "lib-wrapper",
-          "type": "module",
-          "compatibility": {}
-        }
       ]
     },
     "compatibility": {
