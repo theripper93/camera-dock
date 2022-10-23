@@ -16,7 +16,7 @@ Hooks.once("ready", () => {
     const rtcSett = game.settings.get("core", "rtcClientSettings")
 
     rtcSett.dockPosition = "bottom";
-
+    rtcSett.hideDock = false;
     for(let [k,v] of Object.entries(rtcSett.users)){
         v.popout = false;
         rtcSett.users[k] = v;
