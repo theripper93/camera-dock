@@ -25,6 +25,11 @@ Hooks.once("ready", () => {
     game.settings.set("core", "rtcClientSettings", rtcSett);
 })
 
+Hooks.on("renderAVConfig", (app,html) => {
+    html.find('select[name="client.dockPosition"]').closest('.form-group').hide();
+    app.setPosition({height: "auto"});
+})
+
 Hooks.on("renderCameraViews", (settings) => {
     $("#ui-bottom").prepend($("#camera-views"));
     const sizeBTN = $(`<a class="av-control" data-action="cycle-video" data-tooltip="Cycle Size" style="display: block;" aria-describedby="tooltip">
