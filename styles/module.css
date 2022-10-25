@@ -43,6 +43,8 @@
     pointer-events: all;
     transition: all 0.2s ease-in-out;
     font-size: clamp(5px, calc(var(--camera-size) / 10), 16px) !important;
+    transform: translateX(2px);
+    z-index: -10;
 }
 
 .user-controls:hover{

@@ -12,8 +12,9 @@ Hooks.once('init', function() {
       document.querySelector(':root').style.setProperty('--camera-size', game.settings.get("camera-dock", "camera-size") + "px");
 });
 
-Hooks.once("ready", () => {
-    const rtcSett = game.settings.get("core", "rtcClientSettings")
+Hooks.once("ready", async () => {
+    setTimeout(() => {
+    let rtcSett = game.settings.get("core", "rtcClientSettings")
 
     rtcSett.dockPosition = "bottom";
     rtcSett.hideDock = false;
@@ -21,8 +22,8 @@ Hooks.once("ready", () => {
         v.popout = false;
         rtcSett.users[k] = v;
     }
-
     game.settings.set("core", "rtcClientSettings", rtcSett);
+    }, 5000);
 })
 
 Hooks.on("renderAVConfig", (app,html) => {
