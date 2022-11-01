@@ -31,7 +31,7 @@ Hooks.on("renderAVConfig", (app,html) => {
     app.setPosition({height: "auto"});
 })
 
-Hooks.on("renderCameraViews", (settings) => {
+Hooks.on("renderCameraViews", (app,html) => {
     $("#ui-bottom").prepend($("#camera-views"));
     const sizeBTN = $(`<a class="av-control" data-action="cycle-video" data-tooltip="Cycle Size" style="display: block;" aria-describedby="tooltip">
     <i class="fas fa-arrows-alt-h"></i>
@@ -41,5 +41,16 @@ Hooks.on("renderCameraViews", (settings) => {
         game.settings.set("camera-dock", "camera-size", Math.max(100, (size + 50) % 400));
     });
     $(".user-controls").find("nav").append(sizeBTN);
-    
+    html.find(".player-name").each((i,el) => {
+        el.onclick = (e) => {
+            try{
+                const userId = e.currentTarget.closest(".camera-view").dataset.user;
+                const user = game.users.get(userId);
+                user.character.sheet.render(true)
+            }catch(e){
+                ui.notifications.warn("No assigned Character found for this player");
+            }
+        };
+    });
+
 });

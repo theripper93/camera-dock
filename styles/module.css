@@ -63,3 +63,8 @@
 .av-control[data-action="toggle-dock"]{
     display: none !important;
 }
+
+.player-name{
+    cursor: pointer;
+    pointer-events: all;
+}
