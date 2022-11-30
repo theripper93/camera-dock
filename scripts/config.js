@@ -36,7 +36,7 @@ Hooks.on("renderCameraViews", (app,html) => {
     const sizeBTN = $(`<a class="av-control" data-action="cycle-video" data-tooltip="Cycle Size" style="display: block;" aria-describedby="tooltip">
     <i class="fas fa-arrows-alt-h"></i>
 </a>`);
-    sizeBTN.on("click", (e) => {
+    sizeBTN.on("mouseup", (e) => {
         const size = game.settings.get("camera-dock", "camera-size");
         const diff = e.button == 0 ? 50 : -50;
         game.settings.set("camera-dock", "camera-size", Math.max(100, (size + diff) % 400));
