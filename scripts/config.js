@@ -33,6 +33,8 @@ Hooks.on("renderAVConfig", (app,html) => {
 
 Hooks.on("renderCameraViews", (app,html) => {
     $("#ui-bottom").prepend($("#camera-views"));
+    const isButton = html.find(".av-control[data-action='cycle-video']").length > 0;
+    if(isButton) return;
     const sizeBTN = $(`<a class="av-control" data-action="cycle-video" data-tooltip="Cycle Size" style="display: block;" aria-describedby="tooltip">
     <i class="fas fa-arrows-alt-h"></i>
 </a>`);
