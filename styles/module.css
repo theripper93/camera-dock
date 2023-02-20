@@ -11,6 +11,10 @@
     padding-bottom: 6px !important;
 }
 
+.camera-view {
+    pointer-events: all !important;
+}
+
 .camera-view.camera-box-dock{
     width: var(--camera-size) !important;
 }
