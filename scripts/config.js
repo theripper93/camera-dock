@@ -12,19 +12,16 @@ Hooks.once('init', function() {
       document.querySelector(':root').style.setProperty('--camera-size', game.settings.get("camera-dock", "camera-size") + "px");
 });
 
-Hooks.once("ready", async () => {
-    setTimeout(() => {
-    let rtcSett = game.settings.get("core", "rtcClientSettings")
-
-    rtcSett.dockPosition = "bottom";
-    rtcSett.hideDock = false;
-    for(let [k,v] of Object.entries(rtcSett.users)){
-        v.popout = false;
-        rtcSett.users[k] = v;
+Hooks.once("ready", () => {
+    const settings = game.webrtc.settings;
+    settings.set("client", "dockPosition", "bottom");
+    settings.set("client", "hideDock", false);
+    const users = settings.get("client", "users");
+    for (const userSettings of Object.values(users)) {
+        userSettings.popout = false;
     }
-    game.settings.set("core", "rtcClientSettings", rtcSett);
-    }, 5000);
-})
+    settings.set("client", "users", users);
+});
 
 Hooks.on("renderAVConfig", (app,html) => {
     html.find('select[name="client.dockPosition"]').closest('.form-group').hide();

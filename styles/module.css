@@ -68,3 +68,7 @@
     cursor: pointer;
     pointer-events: all;
 }
+
+div#camera-views.camera-position-bottom .camera-view-width-control{
+    display: none;
+}
