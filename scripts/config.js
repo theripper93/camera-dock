@@ -28,7 +28,8 @@ Hooks.on("renderAVConfig", (app,html) => {
     app.setPosition({height: "auto"});
 })
 
-Hooks.on("renderCameraViews", (app,html) => {
+Hooks.on("renderCameraViews", (app, html) => {
+    setTimeout(() => {
     $("#ui-bottom").prepend($("#camera-views"));
     const isButton = $(document).find(".av-control[data-action='cycle-video']").length > 0;
     if(isButton) return;
@@ -52,5 +53,5 @@ Hooks.on("renderCameraViews", (app,html) => {
             }
         };
     });
-
+    }, 100);
 });
