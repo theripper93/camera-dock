@@ -53,5 +53,5 @@ Hooks.on("renderCameraViews", (app, html) => {
             }
         };
     });
-    }, 100);
+    }, 500);
 });
