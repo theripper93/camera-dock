@@ -29,7 +29,6 @@ Hooks.on("renderAVConfig", (app,html) => {
 })
 
 Hooks.on("renderCameraViews", (app, html) => {
-    setTimeout(() => {
     $("#ui-bottom").prepend($("#camera-views"));
     const isButton = $(document).find(".av-control[data-action='cycle-video']").length > 0;
     if(isButton) return;
@@ -53,5 +52,31 @@ Hooks.on("renderCameraViews", (app, html) => {
             }
         };
     });
-    }, 500);
+});
+
+Hooks.on("setup", () => {
+  libWrapper.register("camera-dock", "AVMaster.prototype.onRender", function onRender() {
+    const users = this.client.getConnectedUsers();
+    for ( let u of users ) {
+      const videoElement = ui.webrtc.getUserVideoElement(u);
+      if ( !videoElement ) continue;
+      const isSpeaking = this.settings.activity[u]?.speaking || false;
+      this.client.setUserVideo(u, videoElement);
+      ui.webrtc.setUserIsSpeaking(u, isSpeaking);
+    }
+
+    // Determine the players list position based on the user's settings.
+    const dockPositions = AVSettings.DOCK_POSITIONS;
+    const isAfter = [dockPositions.RIGHT, dockPositions.BOTTOM].includes(this.settings.client.dockPosition);
+    const iface = document.getElementById("interface");
+    const cameraViews = ui.webrtc.element[0];
+    ui.players.render(true);
+
+    if ( this.settings.client.hideDock || ui.webrtc.hidden ) {
+      cameraViews?.style.removeProperty("width");
+      cameraViews?.style.removeProperty("height");
+    }
+
+    document.body.classList.toggle("av-horizontal-dock", !this.settings.verticalDock);
+  }, "OVERRIDE");
 });
