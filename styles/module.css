@@ -9,13 +9,15 @@
     background: none !important;
     position: unset !important;
     padding-bottom: 6px !important;
+    border: none;
 }
 
 .camera-view {
     pointer-events: all !important;
+    margin: 0;
 }
 
-.camera-view.camera-box-dock{
+#camera-views:not(.minimized ) .camera-view .video-container {
     width: var(--camera-size) !important;
 }
 
@@ -39,24 +41,8 @@
 
 .user-controls{
     order: -100;
-    background: url(/ui/denim075.png) repeat !important;
-    border-top-left-radius: 5px !important;
-    border-bottom-left-radius: 5px !important;
-    width: 8px !important;
-    padding: 4px !important;
     pointer-events: all;
-    transition: all 0.2s ease-in-out;
-    font-size: clamp(5px, calc(var(--camera-size) / 10), 16px) !important;
-    transform: translateX(2px);
     z-index: -10;
-}
-
-.user-controls:hover{
-    width: clamp(5px, calc(var(--camera-size) / 4), 30px) !important;
-}
-
-.user-controls:hover nav{
-    opacity: 1;
 }
 
 .user-controls nav{

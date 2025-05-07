@@ -1,4 +1,4 @@
-Hooks.once('init', function() {
+Hooks.once('init', function () {
     game.settings.register("camera-dock", "camera-size", {
         name: "",
         default: 200,
@@ -6,10 +6,10 @@ Hooks.once('init', function() {
         scope: "client",
         config: false,
         onChange: () => {
-            document.querySelector(':root').style.setProperty('--camera-size', game.settings.get("camera-dock", "camera-size") + "px");
+            document.documentElement.style.setProperty('--camera-size', game.settings.get("camera-dock", "camera-size") + "px");
         },
-      });
-      document.querySelector(':root').style.setProperty('--camera-size', game.settings.get("camera-dock", "camera-size") + "px");
+    });
+    document.documentElement.style.setProperty('--camera-size', game.settings.get("camera-dock", "camera-size") + "px");
 });
 
 Hooks.once("ready", () => {
@@ -23,60 +23,50 @@ Hooks.once("ready", () => {
     settings.set("client", "users", users);
 });
 
-Hooks.on("renderAVConfig", (app,html) => {
-    html.find('select[name="client.dockPosition"]').closest('.form-group').hide();
-    app.setPosition({height: "auto"});
-})
-
-Hooks.on("renderCameraViews", (app, html) => {
-    $("#ui-bottom").prepend($("#camera-views"));
-    const isButton = $(document).find(".av-control[data-action='cycle-video']").length > 0;
-    if(isButton) return;
-    const sizeBTN = $(`<a class="av-control" data-action="cycle-video" data-tooltip="Cycle Size" style="display: block;" aria-describedby="tooltip">
-    <i class="fas fa-arrows-alt-h"></i>
-</a>`);
-    sizeBTN.on("mouseup", (e) => {
-        const size = game.settings.get("camera-dock", "camera-size");
-        const diff = e.button == 0 ? 50 : -50;
-        game.settings.set("camera-dock", "camera-size", Math.max(100, (size + diff) % 400));
-    });
-    $(".user-controls").find("nav").append(sizeBTN);
-    html.find(".player-name").each((i,el) => {
-        el.onclick = (e) => {
-            try{
-                const userId = e.currentTarget.closest(".camera-view").dataset.user;
-                const user = game.users.get(userId);
-                user.character.sheet.render(true)
-            }catch(e){
-                ui.notifications.warn("No assigned Character found for this player");
-            }
-        };
-    });
+Hooks.on("renderAVConfig", (app, html) => {
+    const select = html.querySelector('select[name="client.dockPosition"]');
+    if (select) {
+        const formGroup = select.closest('.form-group');
+        if (formGroup) {
+            formGroup.style.display = "none";
+        }
+    }
+    app.setPosition({ height: "auto" });
 });
 
-Hooks.on("setup", () => {
-  libWrapper.register("camera-dock", "AVMaster.prototype.onRender", function onRender() {
-    const users = this.client.getConnectedUsers();
-    for ( let u of users ) {
-      const videoElement = ui.webrtc.getUserVideoElement(u);
-      if ( !videoElement ) continue;
-      const isSpeaking = this.settings.activity[u]?.speaking || false;
-      this.client.setUserVideo(u, videoElement);
-      ui.webrtc.setUserIsSpeaking(u, isSpeaking);
+Hooks.on("renderCameraViews", (app, html) => {
+    const uiBottom = document.getElementById("ui-bottom");
+    const cameraViews = document.getElementById("camera-views");
+    if (uiBottom && cameraViews) {
+        uiBottom.prepend(cameraViews);
     }
 
-    // Determine the players list position based on the user's settings.
-    const dockPositions = AVSettings.DOCK_POSITIONS;
-    const isAfter = [dockPositions.RIGHT, dockPositions.BOTTOM].includes(this.settings.client.dockPosition);
-    const iface = document.getElementById("interface");
-    const cameraViews = ui.webrtc.element[0];
-    ui.players.render(true);
+    const isButton = !!document.querySelector("#camera-views > .user-controls button[data-action='cycle-video']");
+    if (isButton) return;
+    const sizeBTN = document.createElement("button");
+    sizeBTN.type = "button";
+    sizeBTN.classList.add("av-control", "inline-control", "icon", "fa-solid", "fa-fw", "fa-arrows-alt-h");
+    sizeBTN.dataset.action = "cycle-video";
+    sizeBTN.dataset.tooltip = "Cycle Size";
 
-    if ( this.settings.client.hideDock || ui.webrtc.hidden ) {
-      cameraViews?.style.removeProperty("width");
-      cameraViews?.style.removeProperty("height");
-    }
+    sizeBTN.addEventListener("mouseup", (e) => {
+        const size = game.settings.get("camera-dock", "camera-size");
+        const diff = e.button === 0 ? 50 : -50;
+        game.settings.set("camera-dock", "camera-size", Math.max(100, (size + diff) % 350));
+    });
+    const userControlsNav = document.querySelector("#camera-views > .user-controls");
+        userControlsNav.appendChild(sizeBTN);
 
-    document.body.classList.toggle("av-horizontal-dock", !this.settings.verticalDock);
-  }, "OVERRIDE");
+    const playerNames = html.querySelectorAll(".player-name");
+    playerNames.forEach((el) => {
+        el.addEventListener("click", (e) => {
+            try {
+                const userId = e.currentTarget.closest(".camera-view")?.dataset.user;
+                const user = game.users.get(userId);
+                user.character.sheet.render(true);
+            } catch (err) {
+                ui.notifications.warn("No assigned Character found for this player");
+            }
+        });
+    });
 });
