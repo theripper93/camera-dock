@@ -2,6 +2,9 @@
     --camera-size: 100px;
 }
 
+#ui-bottom{
+
+
 #camera-views{
     width: 100% !important;
     min-width: 100% !important;
@@ -61,4 +64,7 @@
 
 div#camera-views.camera-position-bottom .camera-view-width-control{
     display: none;
+}
+
+
 }

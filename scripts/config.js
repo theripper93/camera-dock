@@ -13,18 +13,15 @@ Hooks.once('init', function () {
 });
 
 Hooks.once("ready", () => {
-    const settings = game.webrtc.settings;
-    settings.set("client", "dockPosition", "bottom");
-    settings.set("client", "hideDock", false);
-    const users = settings.get("client", "users");
-    for (const userSettings of Object.values(users)) {
-        userSettings.popout = false;
-    }
-    settings.set("client", "users", users);
+    const settings = game.settings.get("core", "rtcClientSettings");
+    settings.dockPosition = "bottom";
+    settings.hideDock = false;
+    Object.values(settings.users).forEach(userSettings =>  userSettings.popout = false);
+    game.settings.set("core", "rtcClientSettings", settings);
 });
 
 Hooks.on("renderAVConfig", (app, html) => {
-    const select = html.querySelector('select[name="client.dockPosition"]');
+    const select = html.querySelector('select[name="core.rtcClientSettings.dockPosition"]');
     if (select) {
         const formGroup = select.closest('.form-group');
         if (formGroup) {
