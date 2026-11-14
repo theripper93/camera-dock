@@ -6,7 +6,7 @@ import zipfile
 selected_folders = ['scripts', 'styles', 'assets', 'templates', 'languages', 'packs', 'storage']
 
 def read_module_json():
-    with open(file, 'r', encoding='utf-8') as file:
+    with open('module.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
         module_id = data['id']
         module_version = data['version']
@@ -43,4 +43,4 @@ def main():
     create_zip(module_id, module_version, selected_folders)
 
 if __name__ == "__main__":
-    main()
+    main()

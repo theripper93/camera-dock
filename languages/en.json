@@ -1,3 +1,5 @@
 {
-    "MODULE.hello": "hello"
+    "camera-dock.CycleSize": "Cycle Camera Size (Right-Click to Shrink)",
+    "camera-dock.ToggleHotbar": "Toggle Macro Bar",
+    "camera-dock.NoCharacter": "No assigned character found for this player."
 }
